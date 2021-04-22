@@ -13,6 +13,29 @@ module.exports = {
     filename: "[name].bundle.js",
     path: path.join(__dirname + "/dist")
   },
+  module: {
+    rules: [
+      {
+        test: /\.(jpg|png|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name (file) {
+                return "[path][name].[ext]"
+              },
+              publicPath: function(url) {
+                return url.replace("../", "/assets/")
+              }
+            }
+          },
+          {
+            loader: "image-webpack-loader"
+          }
+        ]
+      }
+    ]
+  },
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
